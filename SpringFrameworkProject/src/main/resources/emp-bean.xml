@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"> <!-- bean definitions here -->
+
+
+          <context:property-placeholder location="classpath:data.properties"/>
+          
+          <bean id="emp" class="com.coforge.beans.Employee" autowire="byType">
+<!--              <constructor-arg name="eid" value="123"></constructor-arg> -->
+<!--              <constructor-arg name="ename" value="Anmol"></constructor-arg> -->
+<!--              <constructor-arg name="dept" ref="dept"></constructor-arg> -->
+
+              <property name="eid" value="456"></property>
+              <property name="ename" value="Anmol"></property>
+          
+          
+          </bean>
+          
+<!--         <bean id="emp1" class="com.coforge.beans.Employee"> -->
+<!--              <constructor-arg name="eid" value="456"></constructor-arg> -->
+<!--              <constructor-arg name="ename" value="Rahul"></constructor-arg> -->
+<!--              <constructor-arg name="dept" ref="dept1"></constructor-arg> -->
+          
+          
+<!--           </bean> -->
+          
+          <bean id="dept" name="dept" class="com.coforge.beans.Department">
+          
+              <constructor-arg name="did" value="1"></constructor-arg>
+              <constructor-arg name="dname" value="Training"></constructor-arg>
+              <constructor-arg name="location" value="Noida"></constructor-arg>
+          
+          </bean>
+          
+        
+          
+<!--           <bean id="dept1" class="com.coforge.beans.Department"> -->
+          
+<!--               <constructor-arg name="did" value="2"></constructor-arg> -->
+<!--               <constructor-arg name="dname" value="Accounts"></constructor-arg> -->
+<!--               <constructor-arg name="location" value="Noida"></constructor-arg> -->
+          
+<!--           </bean> -->
+   <!-- bean definitions here -->
+</beans>
