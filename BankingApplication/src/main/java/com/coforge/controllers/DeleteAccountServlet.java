@@ -7,7 +7,7 @@ import java.sql.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.coforge.dao.AccountDAO;
+import com.coforge.DAO.AccountDAO;
 import com.coforge.models.Account;
 
 import jakarta.servlet.ServletContext;

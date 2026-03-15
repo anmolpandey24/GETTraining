@@ -3,14 +3,10 @@ package com.coforge.controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.coforge.dao.AccountDAO;
+import com.coforge.DAO.AccountDAO;
 import com.coforge.models.Account;
 
 import jakarta.servlet.ServletContext;
@@ -20,13 +16,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+
 /**
  * Servlet implementation class ViewAccountServlet
  */
 @WebServlet("/ViewAccountsServlet")
 public class ViewAccountsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LogManager.getLogger(AddAccountServlet.class);
+	private AccountDAO dao=new AccountDAO();
+
     /**
      * Default constructor. 
      */
@@ -39,56 +37,28 @@ public class ViewAccountsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		try {
-			ServletContext context = getServletContext();
-			Connection con = (Connection) context.getAttribute("connection");
-			List<Account> accList;
-			accList = AccountDAO.getAllAccounts(con);
+		ServletContext context=getServletContext();
+		Connection conn=(Connection) context.getAttribute("connection");
+		List<Account> accList=new ArrayList<Account>();
+		accList=dao.getAllAccounts(conn);
 		
-		
-			PrintWriter out = response.getWriter();
-			out.println("<html>");
-			out.println("<body>");
-			out.println("<form action='SearchAccountsServlet'>");
-				out.println("<input type='text' name='query' placeholder='Please enter Account Number, Account Type, Account Holder Name to search' />");
-				out.println("<button>Search</button>");
-			out.println("</form>");
-			out.println("<a href='ViewAccountsServlet'>View All Acounts</a>");
-			out.println("<table border='2px'>");
-			out.println("<thead>");
-				out.println("<tr>");
-					out.println("<th> Account Number</th> ");
-					out.println("<th> Account Type</th> ");
-					out.println("<th> Account Holder Name</th> ");
-					out.println("<th> Balance</th> ");
-					out.println("<th colspan='3'> Actions</th> ");
-					out.println("<th colspan='2'> Transaction Actions</th> ");
-				out.println("</tr>");
-			out.println("</thead>");
-			out.println("<tbody>");		
-				for(Account a: accList) {
-					out.println("<tr>");
-						out.println("<td> "+a.getAccNo()+"</td> ");
-						out.println("<td> "+a.getAccType()+"</td> ");
-						out.println("<td> "+a.getAccHolderName()+"</td> ");
-						out.println("<td> "+a.getBalance()+"</td> ");
-						out.println("<td><a href='EditAccountServlet?accNo="+a.getAccNo()+"'>Edit</a></td> ");
-						out.println("<td><a href='ViewAccountServlet?accNo="+a.getAccNo()+"'>View</a></td> ");
-						out.println("<td><a href='DeleteAccountServlet?accNo="+a.getAccNo()+"'>Delete</a></td> ");
-						out.println("<td><a href='DepositServlet?accNo="+a.getAccNo()+"'>Deposit</a></td> ");
-						out.println("<td><a href='WithdrawServlet?accNo="+a.getAccNo()+"'>Withdraw</a></td> ");
-					out.println("</tr>");
-				}
-			out.println("</tbody>");		
-			out.println("</table>");
-			out.println("</html>");
-			out.println("</body>");
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			logger.info(e);
+		PrintWriter out=response.getWriter();
+		out.println("<html><body>");
+		out.println("<form action='SearchAccountsServlet'>");
+		out.println("<input type='text' name='query' placeholder='Please enter Account Number, Account Type, Account Holder Name to search' />");
+		out.println("<button>Search</button>");
+		out.println("</form>");
+		out.println("<table border=3px>");
+		out.println("<thead><tr><th>Account Number</th><th>Account Holder Name</th><th>Account Type</th><th>Balance</th><th> Actions</th> </tr></thead>");
+		out.println("<tbody><tr>");
+		for(Account acc:accList) {
+			out.println("<td>"+acc.getAccNo()+"</td>");
+			out.println("<td>"+acc.getAccHolderName()+"</td>");
+			out.println("<td>"+acc.getAccType()+"</td>");
+			out.println("<td>"+acc.getBalance()+"</td>");
+			out.println("<td><a href='DeleteAccountServlet?accNo="+acc.getAccNo()+"'>Delete</a></td> </tr>");
 		}
+		out.println("</tbody></table></body></html>");
 	}
 
 	/**

@@ -1,6 +1,8 @@
 package com.coforge.listener;
 
+
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 
 import jakarta.servlet.ServletContext;
@@ -14,8 +16,9 @@ import jakarta.servlet.annotation.WebListener;
  */
 @WebListener
 public class DBConnectionListener implements ServletContextListener {
-
+	
 	private Connection connection;
+
     /**
      * Default constructor. 
      */
@@ -25,34 +28,33 @@ public class DBConnectionListener implements ServletContextListener {
     
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-    	
+    	// TODO Auto-generated method stub
     	ServletContextListener.super.contextInitialized(sce);
+    	
     	try {
     		Class.forName("com.mysql.cj.jdbc.Driver");
     		String url="jdbc:mysql://localhost:3306/cfgdb";
     		String uname="root";
-    		String pwd = "root";
-    		connection = DriverManager.getConnection(url,uname,pwd);
-    		ServletContext context = sce.getServletContext();
-    		context.setAttribute("connection", connection);
-    		System.out.println("Connection Created and added to context");
-    	}catch(Exception e) {
-    		System.out.println("Database Conenction failed");
-    		System.out.println(e);
+    		String pwd="Cfg@1234";
+    		connection=DriverManager.getConnection(url,uname,pwd);
+    		ServletContext context=sce.getServletContext();
+    		context.setAttribute("connection",connection);
+    		System.out.println("Connection Established and added to context");
+    	} catch(Exception e) {
     		e.printStackTrace();
     	}
     }
     
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+    	// TODO Auto-generated method stub
     	ServletContextListener.super.contextDestroyed(sce);
     	
     	try {
-    		if(connection != null && !connection.isClosed()) {
+    		if(connection!=null && !connection.isClosed()) {
     			connection.close();
     		}
-    	} catch(Exception e) {
-    		System.out.println(e);
+    	} catch (Exception e) {
     		e.printStackTrace();
     	}
     }
